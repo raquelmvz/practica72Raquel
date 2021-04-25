@@ -153,7 +153,7 @@ public class GestionHorarios {
 
         /*Instanciación de BufferedReader a partir de un objeto InputStreamReader
         InputStreamReader permite indicar el tipo de codificación del archivo */
-        try ( BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fichero), "UTF-8"))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fichero), "UTF-8"))) {
 
             //mientras el metodo readline no devuelva null es que existen datos por leer
             while ((linea = br.readLine()) != null) {
@@ -202,7 +202,7 @@ public class GestionHorarios {
 
         String idFichero = devuelveNombreFichero(iniciales);
 
-        try ( BufferedWriter flujo = new BufferedWriter(new FileWriter(idFichero))) {
+        try (BufferedWriter flujo = new BufferedWriter(new FileWriter(idFichero))) {
 
             flujo.write("CURSO;ASIGNATURA;AULA;DIA;HORA");
             flujo.newLine();
@@ -211,7 +211,7 @@ public class GestionHorarios {
                 if (regi.getInicialesProfesor().equals(iniciales)) {
                     //se escribe el fichero de ese profesor
                     flujo.write(regi.getCurso() + ";" + regi.getAsignatura()
-                            + ";" + regi.getAula() + ";" + regi.getDiaSemana() + ";" + regi.getHoraDia());
+                            + ";" + regi.getAula() + ";" + formateaDiaSemana(regi.getDiaSemana()) + ";" + regi.getHoraDia());
                     flujo.newLine();
 
                 }
@@ -229,7 +229,7 @@ public class GestionHorarios {
 
         String idFichero = devuelveNombreFichero(grupo);
 
-        try ( BufferedWriter flujo = new BufferedWriter(new FileWriter(idFichero))) {
+        try (BufferedWriter flujo = new BufferedWriter(new FileWriter(idFichero))) {
 
             flujo.write("PROFESOR;ASIGNATURA;AULA;DIA;HORA");
             flujo.newLine();
@@ -238,7 +238,7 @@ public class GestionHorarios {
                 if (regi.getCurso().equals(grupo)) {
                     //se escribe el fichero de ese grupo
                     flujo.write(regi.getInicialesProfesor() + ";" + regi.getAsignatura()
-                            + ";" + regi.getAula() + ";" + regi.getDiaSemana() + ";" + regi.getHoraDia());
+                            + ";" + regi.getAula() + ";" + formateaDiaSemana(regi.getDiaSemana()) + ";" + regi.getHoraDia());
                     flujo.newLine();
 
                 }
@@ -248,6 +248,25 @@ public class GestionHorarios {
         } catch (IOException e) {
 
             System.out.println(e.getMessage());
+        }
+    }
+
+    public static String formateaDiaSemana(int dia) {
+
+        switch (String.valueOf(dia)) {
+            case "1":
+                return "LUNES";
+            case "2":
+                return "MARTES";
+            case "3":
+                return "MIÉRCOLES";
+            case "4":
+                return "JUEVES";
+            case "5":
+                return "VIERNES";
+            default:
+                return "";
+
         }
     }
 
