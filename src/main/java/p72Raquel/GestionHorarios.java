@@ -29,6 +29,8 @@ public class GestionHorarios {
     static Scanner entradaTeclado = new Scanner(System.in);
 
     public static void main(String[] args) {
+        
+        boolean repetir = true;//para volver a ejecutar el programa
 
         String idFichero = "hor_curso_1920_final.csv";
         ArrayList<RegistroHorario> listaRegistros; //aqui se van guardando los registros del csv
@@ -36,6 +38,8 @@ public class GestionHorarios {
         (ya estan ordenados) */
         ArrayList<RegistroHorario> registros = leeFichero(idFichero); //aqui se ejecuta el metodo que lee el fichero
 
+        System.out.println("--------------------------------------------------------");
+        
         //set ordenado -- treeset
         SortedSet<String> conjuntoGrupos = new TreeSet<>();
         SortedSet<String> conjuntoInicialesProfesores = new TreeSet<>();
@@ -46,53 +50,59 @@ public class GestionHorarios {
             conjuntoGrupos.add(registro.getCurso());
             conjuntoInicialesProfesores.add(registro.getInicialesProfesor());
         }
+        
+        do {//el programa se ejecuta hasta que el usuario decida cerrarlo
 
-        int opcion = menuInicial();
+            int opcion = menuInicial();//menu inicial para elegir buscar por profesores o grupos
 
-        //si se elige la primera opcion (profesores)
-        if (opcion == 1) {
+            if (opcion == 1) {//si se elige la primera opcion (profesores)
 
-            //lista con las iniciales del profesorado
-            System.out.println("LISTA DE PROFESORES");
-            //para mostrar un numero en la lista junto a las iniciales
-            //y seleccionar por el numero
-            muestraListado(conjuntoInicialesProfesores);
+                //lista con las iniciales del profesorado
+                System.out.println("LISTA DE PROFESORES");
+                //para mostrar un numero en la lista junto a las iniciales
+                //y seleccionar por el numero
+                muestraListado(conjuntoInicialesProfesores);
 
-            int eligeProfesor = eligeEnLaLista(conjuntoInicialesProfesores);
+                //se pide al usuario que elija entre la lista segun el indice
+                int eligeProfesor = eligeEnLaLista(conjuntoInicialesProfesores);
 
-            //conversion del set a arraylist para poder extraer un elemento 
-            //dado su indice
-            List<String> lista = new ArrayList<String>(conjuntoInicialesProfesores);
+                //conversion del set a arraylist para poder extraer un elemento 
+                //dado su indice
+                List<String> lista = new ArrayList<String>(conjuntoInicialesProfesores);
 
-            //queremos guardar las iniciales del profesor seleccionado
-            String inicialesSeleccionadas = lista.get(eligeProfesor);
-            System.out.println("Has elegido el profesor " + inicialesSeleccionadas);
+                //queremos guardar las iniciales del profesor seleccionado
+                String inicialesSeleccionadas = lista.get(eligeProfesor);
+                System.out.println("Has elegido el profesor " + inicialesSeleccionadas);
 
-            //se genera un fichero con el profesor seleccionado
-            generaFicheroProfesor(registros, inicialesSeleccionadas);
+                //se genera un fichero con el profesor seleccionado
+                generaFicheroProfesor(registros, inicialesSeleccionadas);
 
-        } else { //si elegimos por grupos
+            } else { //si elegimos por grupos
 
-            //lista con las iniciales de grupos
-            System.out.println("LISTA DE GRUPOS");
-            //para mostrar un numero en la lista junto a las iniciales
-            //y seleccionar por el numero
-            muestraListado(conjuntoGrupos);
+                //lista con las iniciales de grupos
+                System.out.println("LISTA DE GRUPOS");
+                //para mostrar un numero en la lista junto a las iniciales
+                //y seleccionar por el numero
+                muestraListado(conjuntoGrupos);
 
-            int eligeGrupo = eligeEnLaLista(conjuntoGrupos);
+                int eligeGrupo = eligeEnLaLista(conjuntoGrupos);
 
-            //conversion del set a arraylist para poder extraer un elemento 
-            //dado su indice
-            List<String> lista = new ArrayList<String>(conjuntoGrupos);
+                //conversion del set a arraylist para poder extraer un elemento 
+                //dado su indice
+                List<String> lista = new ArrayList<String>(conjuntoGrupos);
 
-            //queremos guardar el grupo seleccionado
-            String grupoSeleccionado = lista.get(eligeGrupo);
-            System.out.println("Has elegido el grupo " + grupoSeleccionado);
+                //queremos guardar el grupo seleccionado
+                String grupoSeleccionado = lista.get(eligeGrupo);
+                System.out.println("Has elegido el grupo " + grupoSeleccionado);
 
-            //se genera un fichero con el grupo seleccionado
-            generaFicheroGrupo(registros, grupoSeleccionado);
+                //se genera un fichero con el grupo seleccionado
+                generaFicheroGrupo(registros, grupoSeleccionado);
 
-        }
+            }
+            
+            repetir = salidaDePrograma();//menu para elegir si queremos salir del prgrama
+
+        } while (repetir);
 
     }
     
@@ -111,6 +121,22 @@ public class GestionHorarios {
         } while (opcion != 1 && opcion != 2);
         
         return opcion;
+    }
+    
+    //salida del programa
+    public static boolean salidaDePrograma() {
+        int salir;
+            
+            do {
+
+            System.out.println("¿Salir del programa?\n"
+                    + "1. - SI\n"
+                    + "2. - NO");
+            salir = entradaTeclado.nextInt();
+            
+            } while (salir != 1 && salir != 2);
+            
+            return (salir != 1);
     }
     
     //metodo que imprime el listado de elementos del set
