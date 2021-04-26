@@ -25,6 +25,8 @@ import java.util.TreeSet;
  * @author raquel
  */
 public class GestionHorarios {
+    
+    static Scanner entradaTeclado = new Scanner(System.in);
 
     public static void main(String[] args) {
 
@@ -45,27 +47,7 @@ public class GestionHorarios {
             conjuntoInicialesProfesores.add(registro.getInicialesProfesor());
         }
 
-        //impresion por pantalla para comprobar
-//        System.out.println("----------------------------------\n"
-//                + "--- GRUPOS--- ");
-//        conjuntoGrupos.forEach(System.out::println);
-//        
-//        System.out.println("----------------------------------\n"
-//                + "--- PROFESORES --- ");
-//        conjuntoInicialesProfesores.forEach(System.out::println);
-        //dos opciones: consultar horario por profesor o por grupo
-        Scanner entradaTeclado = new Scanner(System.in);
-
-        int opcion;
-
-        do {
-
-            System.out.println("OPCIONES:\n"
-                    + "1. CONSULTAR HORARIOS POR PROFESOR\n"
-                    + "2. CONSULTAR HORARIOS POR GRUPO");
-            opcion = entradaTeclado.nextInt();
-
-        } while (opcion != 1 && opcion != 2);
+        int opcion = menuInicial();
 
         //si se elige la primera opcion (profesores)
         if (opcion == 1) {
@@ -74,20 +56,9 @@ public class GestionHorarios {
             System.out.println("LISTA DE PROFESORES");
             //para mostrar un numero en la lista junto a las iniciales
             //y seleccionar por el numero
-            int contadorIniciales = 0;
-            for (String iniciales : conjuntoInicialesProfesores) {
-                System.out.println(contadorIniciales + ". - " + iniciales);
-                contadorIniciales++;
-            }
+            muestraListado(conjuntoInicialesProfesores);
 
-            int eligeProfesor;
-
-            do {
-
-                System.out.println("SELECCIONA UN NUMERO DE LA LISTA:");
-                eligeProfesor = entradaTeclado.nextInt();
-
-            } while (eligeProfesor < 0 || eligeProfesor > conjuntoInicialesProfesores.size() - 1);
+            int eligeProfesor = eligeEnLaLista(conjuntoInicialesProfesores);
 
             //conversion del set a arraylist para poder extraer un elemento 
             //dado su indice
@@ -106,20 +77,9 @@ public class GestionHorarios {
             System.out.println("LISTA DE GRUPOS");
             //para mostrar un numero en la lista junto a las iniciales
             //y seleccionar por el numero
-            int contadorGrupos = 0;
-            for (String grupo : conjuntoGrupos) {
-                System.out.println(contadorGrupos + ". - " + grupo);
-                contadorGrupos++;
-            }
+            muestraListado(conjuntoGrupos);
 
-            int eligeGrupo;
-
-            do {
-
-                System.out.println("SELECCIONA UN NUMERO DE LA LISTA:");
-                eligeGrupo = entradaTeclado.nextInt();
-
-            } while (eligeGrupo < 0 || eligeGrupo > conjuntoGrupos.size() - 1);
+            int eligeGrupo = eligeEnLaLista(conjuntoGrupos);
 
             //conversion del set a arraylist para poder extraer un elemento 
             //dado su indice
@@ -135,7 +95,49 @@ public class GestionHorarios {
         }
 
     }
+    
+    //metodo con el menu inicial
+    public static int menuInicial() {
+        
+        int opcion;
+        
+        do {
 
+            System.out.println("OPCIONES:\n"
+                    + "1. CONSULTAR HORARIOS POR PROFESOR\n"
+                    + "2. CONSULTAR HORARIOS POR GRUPO");
+            opcion = entradaTeclado.nextInt();
+
+        } while (opcion != 1 && opcion != 2);
+        
+        return opcion;
+    }
+    
+    //metodo que imprime el listado de elementos del set
+    public static void muestraListado(SortedSet<String> conjunto) {
+        
+        //para mostrar un numero en la lista junto a las iniciales
+            //y seleccionar por el numero
+            int contador = 0;
+            for (String elemento : conjunto) {
+                System.out.println(contador + ". - " + elemento);
+                contador++;
+            }
+    }
+    
+    public static int eligeEnLaLista(SortedSet<String> conjunto) {
+        
+        int elige;
+
+            do {
+
+                System.out.println("SELECCIONA UN NUMERO DE LA LISTA:");
+                elige = entradaTeclado.nextInt();
+
+            } while (elige < 0 || elige > conjunto.size() - 1);
+            
+            return elige;
+    }
 
     /* Metodo para quitar las comillas a todos los datos que
     se recogen en el fichero */
