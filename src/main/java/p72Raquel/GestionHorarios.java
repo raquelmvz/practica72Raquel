@@ -106,8 +106,10 @@ public class GestionHorarios {
 
     }
     
-    //metodo con el menu inicial
-    public static int menuInicial() {
+    /* Metodo con el menu inicial que permite al usuario 
+    elegir mostrar por profesor o por grupo.
+    Devuelve el valor 1 o 2 segun la opcion elegida */
+    private static int menuInicial() {
         
         int opcion;
         
@@ -123,8 +125,9 @@ public class GestionHorarios {
         return opcion;
     }
     
-    //salida del programa
-    public static boolean salidaDePrograma() {
+    /* Salida del programa: pregunta al usuario
+    si desea salir del programa */
+    private static boolean salidaDePrograma() {
         int salir;
             
             do {
@@ -139,8 +142,9 @@ public class GestionHorarios {
             return (salir != 1);
     }
     
-    //metodo que imprime el listado de elementos del set
-    public static void muestraListado(SortedSet<String> conjunto) {
+    /* Metodo que imprime el listado de elementos del set junto con un
+    numero identificativo para que el usuario luego elija por numero */
+    private static void muestraListado(SortedSet<String> conjunto) {
         
         //para mostrar un numero en la lista junto a las iniciales
             //y seleccionar por el numero
@@ -151,7 +155,9 @@ public class GestionHorarios {
             }
     }
     
-    public static int eligeEnLaLista(SortedSet<String> conjunto) {
+    /* Metodo que pide y devuelve la opcion elegida por el usuario de la lista
+    de opciones */
+    private static int eligeEnLaLista(SortedSet<String> conjunto) {
         
         int elige;
 
@@ -172,7 +178,7 @@ public class GestionHorarios {
     }
 
     /* Metodo que lee el fichero */
-    public static ArrayList<RegistroHorario> leeFichero(String fichero) {
+    private static ArrayList<RegistroHorario> leeFichero(String fichero) {
 
         /* para guardar los datos que se van leyendo */
         String[] tokens;
@@ -220,13 +226,14 @@ public class GestionHorarios {
         return registros;
     }
 
-    //metodo para dar nombre personalizado a los ficheros
-    public static String devuelveNombreFichero(String iniciales) {
+    /* Metodo para dar nombre personalizado a los ficheros 
+    Recibe las iniciales elegidas y añade la extension csv */
+    private static String devuelveNombreFichero(String iniciales) {
         return (iniciales + ".csv");
     }
 
-    //metodo que genera un fichero de profesor
-    public static void generaFicheroProfesor(ArrayList<RegistroHorario> lista, String iniciales) {
+    /* Metodo que genera un fichero de profesor */
+    private static void generaFicheroProfesor(ArrayList<RegistroHorario> lista, String iniciales) {
 
         String idFichero = devuelveNombreFichero(iniciales);
 
@@ -252,8 +259,8 @@ public class GestionHorarios {
         }
     }
 
-    //metodo que genera un fichero de grupo
-    public static void generaFicheroGrupo(ArrayList<RegistroHorario> lista, String grupo) {
+    /* Metodo que genera un fichero de grupo */
+    private static void generaFicheroGrupo(ArrayList<RegistroHorario> lista, String grupo) {
 
         String idFichero = devuelveNombreFichero(grupo);
 
@@ -279,7 +286,8 @@ public class GestionHorarios {
         }
     }
 
-    public static String formateaDiaSemana(int dia) {
+    /* Metodo que recibe el numero de dia y escribe su valor en texto (lunes, martes, etc) */
+    private static String formateaDiaSemana(int dia) {
 
         switch (String.valueOf(dia)) {
             case "1":
